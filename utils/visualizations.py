@@ -107,7 +107,9 @@ def create_accident_map(
     lat_col: str = 'lat',
     lon_col: str = 'long',
     map_type: str = 'heatmap',
-    zoom: int = 4
+    zoom: int = 4,
+    radius: int = 15,
+    opacity: float = 0.6
 ) -> go.Figure:
     """
     Create a map visualization of accidents.
@@ -118,6 +120,8 @@ def create_accident_map(
         lon_col: Name of longitude column
         map_type: Type of map ('heatmap' or 'scatter')
         zoom: Initial zoom level
+        radius: Radius for heatmap (default 15)
+        opacity: Opacity for heatmap (default 0.6)
 
     Returns:
         Plotly figure object
@@ -156,7 +160,8 @@ def create_accident_map(
             df_map,
             lat=lat_col,
             lon=lon_col,
-            radius=10,
+            radius=radius,
+            opacity=opacity,
             center=dict(lat=center_lat, lon=center_lon),
             zoom=zoom,
             mapbox_style="open-street-map",
@@ -176,6 +181,7 @@ def create_accident_map(
             lat=lat_col,
             lon=lon_col,
             color=color_col,
+            hover_data=[lat_col, lon_col],
             zoom=zoom,
             center=dict(lat=center_lat, lon=center_lon),
             mapbox_style="open-street-map",

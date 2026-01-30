@@ -252,6 +252,27 @@ if "lat" in filtered_df.columns and "long" in filtered_df.columns:
             help="Choose between density heatmap or individual points"
         )
 
+        # Heatmap controls
+        heatmap_radius = 15
+        heatmap_opacity = 0.6
+
+        if map_type == "Heatmap":
+            heatmap_radius = st.slider(
+                "Heatmap Radius",
+                min_value=5,
+                max_value=50,
+                value=15,
+                help="Adjust the smoothing radius of the heatmap"
+            )
+            heatmap_opacity = st.slider(
+                "Opacity",
+                min_value=0.1,
+                max_value=1.0,
+                value=0.6,
+                step=0.1,
+                help="Adjust the opacity of the heatmap layer"
+            )
+
         # Limit points for performance if too many
         max_points = 5000
         if len(filtered_df) > max_points:
@@ -266,7 +287,9 @@ if "lat" in filtered_df.columns and "long" in filtered_df.columns:
                 map_df,
                 lat_col="lat",
                 lon_col="long",
-                map_type=map_type.lower()
+                map_type=map_type.lower(),
+                radius=heatmap_radius,
+                opacity=heatmap_opacity
             )
             st.plotly_chart(fig_map, use_container_width=True)
 else:
